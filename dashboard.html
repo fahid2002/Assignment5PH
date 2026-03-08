@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Issues Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+  <nav class="bg-white shadow p-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+        <img src="B13-A5-Github-Issue-Tracker-main/assets/github-logo.png" alt="logo" class="w-8 h-8 mr-2">
+    <h1 class="font-bold text-xl text-black">GitHub Issues Tracker</h1>
+    </div>
+    <div class="flex gap-2">
+       <div class="relative flex items-center w-full">
+ 
+  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" 
+      viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+        d="M21 21l-4.35-4.35m1.6-5.65a7.25 7.25 0 11-14.5 0 7.25 7.25 0 0114.5 0z"/>
+    </svg>
+  </span>
+
+  <input type="text" id="searchInput" placeholder="Search issues..."  class="input input-bordered bg-white text-black pl-10 w-full">
+</div>
+<button class="btn normal-case bg-blue-600 hover:bg-blue-900 border-none text-white flex items-center gap-1">
+  <span>+</span>
+  <span>New Issues</span>
+</button>    </div>
+  </nav>
+
+  <div class="flex justify-left gap-4 mt-4 pl-5 rounded-none">
+    <button class="tab-btn btn btn-outline btn-sm active bg-blue-600 text-white" data-status="all">All</button>
+    <button class="tab-btn btn btn-outline btn-sm bg-blue-600 text-white" data-status="open">Open</button>
+    <button class="tab-btn btn btn-outline btn-sm bg-blue-600 text-white" data-status="closed">Closed</button>
+  </div>
+
+  <div id="issuesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4"></div>
+
+  <input type="checkbox" id="issueModal" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box relative" id="modalContent">
+      <label for="issueModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
