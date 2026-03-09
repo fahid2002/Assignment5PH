@@ -3,9 +3,14 @@ const tabs = document.querySelectorAll('.tab-btn');
 const searchInput = document.getElementById('searchInput');
 const modalCheckbox = document.getElementById('issueModal');
 const modalBody = document.getElementById('modalBody');
+const newIssueBtn = document.getElementById('newIssueBtn');
 
 let allIssues = [];
 let currentFilter = 'all';
+
+newIssueBtn.addEventListener('click', () => {
+  alert("Create new issue feature coming soon!");
+}); 
 
 const priorityColors = {
   high: 'font-bold bg-red-100 text-red-600',
@@ -198,7 +203,6 @@ function showModal(issue) {
   modalCheckbox.checked = true;
 }
 
-tabs.forEach(tab => {
 
 tabs.forEach(tab => {
 
@@ -215,8 +219,6 @@ tabs.forEach(tab => {
     renderIssues();
 
   });
-
-});
 
 });
 
