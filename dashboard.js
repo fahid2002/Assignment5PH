@@ -120,7 +120,6 @@ card.className = `bg-white shadow-md rounded-lg p-4 border-t-4 ${statusColors[is
     issuesContainer.appendChild(card);
 
   });
-
 }
 
 function showModal(issue) {
