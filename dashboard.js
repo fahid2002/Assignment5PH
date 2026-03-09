@@ -200,17 +200,23 @@ function showModal(issue) {
 
 tabs.forEach(tab => {
 
+tabs.forEach(tab => {
+
   tab.addEventListener('click', () => {
 
     currentFilter = tab.dataset.status;
 
-    tabs.forEach(t => t.classList.remove('btn-primary'));
+    tabs.forEach(t => 
+      t.classList.remove('bg-blue-600','text-white')
+    );
 
-    tab.classList.add('btn-primary');
+    tab.classList.add('bg-blue-600','text-white');
 
     renderIssues();
 
   });
+
+});
 
 });
 
