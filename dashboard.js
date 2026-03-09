@@ -5,12 +5,13 @@ const modalCheckbox = document.getElementById('issueModal');
 const modalBody = document.getElementById('modalBody');
 const newIssueBtn = document.getElementById('newIssueBtn');
 
+if (newIssueBtn) {
+  newIssueBtn.addEventListener('click', () => {
+    alert("Create new issue feature coming soon!");
+  });
+}
 let allIssues = [];
-let currentFilter = 'all';
-
-newIssueBtn.addEventListener('click', () => {
-  alert("Create new issue feature coming soon!");
-}); 
+let currentFilter = 'all'; 
 
 const priorityColors = {
   high: 'font-bold bg-red-100 text-red-600',
@@ -210,7 +211,7 @@ tabs.forEach(tab => {
 
     currentFilter = tab.dataset.status;
 
-    tabs.forEach(t => 
+    tabs.forEach(t =>
       t.classList.remove('bg-blue-600','text-white')
     );
 
