@@ -34,3 +34,26 @@ async function fetchIssues() {
     issuesContainer.innerHTML = '<p class="text-red-500">Failed to load issues.</p>';
   }
 }
+
+function renderIssues() {
+  const searchTerm = searchInput.value.toLowerCase();
+  issuesContainer.innerHTML = '';
+
+  const filtered = allIssues
+    .filter(issue => currentFilter === 'all' || issue.status === currentFilter)
+    .filter(issue => issue.title.toLowerCase().includes(searchTerm));
+
+  if (filtered.length === 0) {
+    issuesContainer.innerHTML = '<p class="text-gray-500">No issues found.</p>';
+    return;
+  }
+
+  filtered.forEach(issue => {
+    const card = document.createElement('div');
+    card.className = `card p-4 border-t-4 ${statusColors[issue.status]} bg-white shadow cursor-pointer relative`;
+
+ const statusIcons = {
+  open: 'B13-A5-Github-Issue-Tracker-main/assets/Open-Status.png',
+  closed: 'B13-A5-Github-Issue-Tracker-main/assets/Closed- Status .png'
+};
+  })}
