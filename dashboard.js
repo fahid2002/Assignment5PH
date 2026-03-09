@@ -8,9 +8,9 @@ let allIssues = [];
 let currentFilter = 'all';
 
 const priorityColors = {
-  high: 'bg-red-500',
-  medium: 'bg-orange-400',
-  low: 'bg-gray-400'
+  high: 'font-bold bg-red-100 text-red-600',
+  medium: 'font-bold bg-orange-100 text-orange-600',
+  low: 'font-bold bg-gray-100 text-gray-600'
 };
 
 const statusColors = {
@@ -18,24 +18,31 @@ const statusColors = {
   closed: 'border-purple-500'
 };
 
+const statusIcons = {
+  open: 'B13-A5-Github-Issue-Tracker-main/assets/Open-Status.png',
+  closed: 'B13-A5-Github-Issue-Tracker-main/assets/Closed-Status.png'
+};
+
 async function fetchIssues() {
   try {
     const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
     const result = await res.json();
 
-    if (result.status === 'success' && Array.isArray(result.data)) {
+    if (result.data && Array.isArray(result.data)) {
       allIssues = result.data;
       renderIssues();
     } else {
       issuesContainer.innerHTML = '<p class="text-red-500">No issues found.</p>';
     }
+
   } catch (err) {
-    console.error('Failed to fetch issues:', err);
+    console.error(err);
     issuesContainer.innerHTML = '<p class="text-red-500">Failed to load issues.</p>';
   }
 }
 
 function renderIssues() {
+
   const searchTerm = searchInput.value.toLowerCase();
   issuesContainer.innerHTML = '';
 
@@ -49,35 +56,131 @@ function renderIssues() {
   }
 
   filtered.forEach(issue => {
+
     const card = document.createElement('div');
-    card.className = `card p-4 border-t-4 ${statusColors[issue.status]} bg-white shadow cursor-pointer relative`;
 
- const statusIcons = {
-  open: 'B13-A5-Github-Issue-Tracker-main/assets/Open-Status.png',
-  closed: 'B13-A5-Github-Issue-Tracker-main/assets/Closed- Status .png'
-};
+card.className = `bg-white shadow-md rounded-lg p-4 border-t-4 ${statusColors[issue.status]} cursor-pointer flex flex-col`;
+    let labelsHTML = '';
 
+    if (issue.labels && issue.labels.includes('bug')) {
 
-card.innerHTML = `
+      labelsHTML = `
+        <span class="font-bold text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">BUG</span>
+        <span class="font-bold text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full">HELP WANTED</span>
+      `;
 
-  <div class="flex justify-between items-center mb-2">
+    } else {
 
-    <img src="${statusIcons[issue.status]}" 
-         alt="${issue.status}" class="w-5 h-5">
+      labelsHTML = `
+        <span class="font-bold text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">ENHANCEMENT</span>
+      `;
 
-    <span class="text-white text-xs px-2 py-1 rounded-full ${priorityColors[issue.priority.toLowerCase()] || 'bg-gray-400'}">
-      ${issue.priority.toUpperCase()}
-    </span>
+    }
+
+    card.innerHTML = `
+
+      <div class="flex justify-between items-center mb-3">
+
+        <img src="${statusIcons[issue.status]}" class="w-6 h-6">
+
+        <span class="text-white text-xs px-3 py-1 rounded-full ${priorityColors[issue.priority?.toLowerCase()] || 'bg-gray-400'}">
+          ${issue.priority?.toUpperCase() || "LOW"}
+        </span>
+
+      </div>
+
+      <h2 class="font-bold text-lg text-black mb-1">
+        ${issue.title}
+      </h2>
+
+      <div class="flex-grow">
+
+  <p class="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[40px]">
+    ${issue.description || ""}
+  </p>
+
+  <div class="flex gap-2 mb-3 min-h-[28px]">
+    ${labelsHTML}
   </div>
 
-  <h2 class="font-bold text-lg text-black mb-1">${issue.title}</h2>
+</div>
 
-  <p class="text-gray-700 mb-2">${issue.description}</p>
+<hr class="mb-3">
 
-  <p class="text-sm text-gray-500">Author: ${issue.author} | Assignee: ${issue.assignee || 'Unassigned'}</p>
-`;
+<p class="text-xs text-gray-600">
+  #${issue.id || issue._id} by ${issue.author || "unknown"}
+</p>
+
+<p class="text-xs text-gray-400">
+  ${issue.createdAt ? new Date(issue.createdAt).toLocaleDateString() : ""}
+</p>
+    `;
 
     card.addEventListener('click', () => showModal(issue));
     issuesContainer.appendChild(card);
+
   });
+
 }
+
+function showModal(issue) {
+
+  modalBody.innerHTML = `
+
+    <h2 class="font-bold text-xl mb-2">
+      ${issue.title}
+    </h2>
+
+    <p class="mb-3">
+      ${issue.description}
+    </p>
+
+    <p class="text-sm text-gray-600">
+      Status: ${issue.status}
+    </p>
+
+    <p class="text-sm text-gray-600">
+      Priority: ${issue.priority}
+    </p>
+
+    <p class="text-sm text-gray-600">
+      Author: ${issue.author}
+    </p>
+
+    <p class="text-sm text-gray-600">
+      Assignee: ${issue.assignee || "Unassigned"}
+    </p>
+
+    <p class="text-sm text-gray-400 mt-2">
+      Created: ${issue.createdAt ? new Date(issue.createdAt).toLocaleString() : ""}
+    </p>
+
+    <p class="text-sm text-gray-400">
+      Updated: ${issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : ""}
+    </p>
+  `;
+
+  modalCheckbox.checked = true;
+}
+
+tabs.forEach(tab => {
+
+  tab.addEventListener('click', () => {
+
+    currentFilter = tab.dataset.status;
+
+    tabs.forEach(t => t.classList.remove('btn-primary'));
+
+    tab.classList.add('btn-primary');
+
+    renderIssues();
+
+  });
+
+});
+
+searchInput.addEventListener('input', () => {
+  renderIssues();
+});
+
+fetchIssues();

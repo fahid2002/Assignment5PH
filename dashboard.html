@@ -33,13 +33,55 @@
 </button>    </div>
   </nav>
 
-  <div class="flex justify-left gap-4 mt-4 pl-5 rounded-none">
-    <button class="tab-btn btn btn-outline btn-sm hover:bg-purple-200" data-status="all">All</button>
-    <button class="tab-btn btn btn-outline btn-sm hover:bg-purple-200" data-status="open">Open</button>
-    <button class="tab-btn btn btn-outline btn-sm hover:bg-purple-200" data-status="closed">Closed</button>
+<div class="max-w-6xl mx-auto mt-8 bg-white shadow rounded-md">
+  <div class="flex justify-start gap-4 p-4">
+    <button class="tab-btn btn btn-outline btn-sm hover:bg-purple-200" data-status="all">
+      All
+    </button>
+    <button class="tab-btn btn btn-outline btn-sm hover:bg-purple-200" data-status="open">
+      Open
+    </button>
+    <button class="tab-btn btn btn-outline btn-sm hover:bg-purple-200" data-status="closed">
+      Closed
+    </button>
+  </div>
+</div>
+  <div class="max-w-6xl mx-auto mt-8">
+
+<div class="max-w-6xl mx-auto mt-8 bg-white shadow rounded-md p-6">
+  
+  <div class="flex items-center justify-between mb-2">
+
+    <div class="flex items-center gap-3">
+      <img src="B13-A5-Github-Issue-Tracker-main/assets/Aperture.png" class="w-8 h-8">
+      <h2 class="text-2xl font-bold text-black">50 Issues</h2>
+    </div>
+
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2 text-gray-600">
+        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+        <span>Open</span>
+      </div>
+      <div class="flex items-center gap-2 text-gray-600">
+        <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+        <span>Closed</span>
+      </div>
+    </div>
   </div>
 
-  <div id="issuesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4"></div>
+  <p class="text-gray-500 mb-6">
+    Track and manage your project issues
+  </p>
+
+  <hr class="mb-6">
+
+  <div id="issues-container" class="grid gap-4">
+
+  </div>
+
+</div>
+
+  <div id="issuesContainer" class="bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4"></div>
 
   <input type="checkbox" id="issueModal" class="modal-toggle" />
   <div class="modal">
