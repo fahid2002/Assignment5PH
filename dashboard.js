@@ -125,39 +125,68 @@ card.className = `bg-white shadow-md rounded-lg p-4 border-t-4 ${statusColors[is
 
 function showModal(issue) {
 
+  const labels = issue.labels && issue.labels.includes('bug')
+    ? `<span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-bold">BUG</span>
+       <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full font-bold">HELP WANTED</span>`
+    : `<span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full font-bold">ENHANCEMENT</span>`;
+
+  const statusBadge = issue.status === "open"
+    ? `<span class="bg-green-500 text-white text-xs px-3 py-1 rounded-full">Opened</span>`
+    : `<span class="bg-purple-500 text-white text-xs px-3 py-1 rounded-full">Closed</span>`;
+
+  const priorityColor =
+    issue.priority?.toLowerCase() === "high"
+      ? "bg-red-500"
+      : issue.priority?.toLowerCase() === "medium"
+      ? "bg-yellow-500"
+      : "bg-gray-400";
+
   modalBody.innerHTML = `
 
-    <h2 class="font-bold text-xl mb-2">
+  <div class="space-y-4 bg-white">
+
+    <h2 class="text-2xl font-bold text-black">
       ${issue.title}
     </h2>
 
-    <p class="mb-3">
-      ${issue.description}
+    <div class="flex items-center gap-3 text-sm text-gray-600">
+      ${statusBadge}
+      <span>Opened by ${issue.author || "unknown"}</span>
+      <span>•</span>
+      <span>${issue.createdAt ? new Date(issue.createdAt).toLocaleDateString() : ""}</span>
+    </div>
+
+    <div class="flex gap-2">
+      ${labels}
+    </div>
+
+    <p class="text-gray-700">
+      ${issue.description || ""}
     </p>
 
-    <p class="text-sm text-gray-600">
-      Status: ${issue.status}
-    </p>
+    <div class="bg-gray-100 p-4 rounded-lg flex justify-between">
 
-    <p class="text-sm text-gray-600">
-      Priority: ${issue.priority}
-    </p>
+      <div>
+        <p class="text-sm text-gray-500">Assignee:</p>
+        <p class="font-semibold text-black">${issue.assignee || "Unassigned"}</p>
+      </div>
 
-    <p class="text-sm text-gray-600">
-      Author: ${issue.author}
-    </p>
+      <div>
+        <p class="text-sm text-gray-500">Priority:</p>
+        <span class="text-white text-xs px-3 py-1 rounded-full ${priorityColor}">
+          ${issue.priority?.toUpperCase() || "LOW"}
+        </span>
+      </div>
 
-    <p class="text-sm text-gray-600">
-      Assignee: ${issue.assignee || "Unassigned"}
-    </p>
+    </div>
 
-    <p class="text-sm text-gray-400 mt-2">
-      Created: ${issue.createdAt ? new Date(issue.createdAt).toLocaleString() : ""}
-    </p>
+    <div class="flex justify-end">
+      <label for="issueModal" class="btn bg-blue-600 hover:bg-blue-800 border-none text-white">
+        Close
+      </label>
+    </div>
 
-    <p class="text-sm text-gray-400">
-      Updated: ${issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : ""}
-    </p>
+  </div>
   `;
 
   modalCheckbox.checked = true;
