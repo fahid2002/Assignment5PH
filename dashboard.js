@@ -10,7 +10,7 @@ let currentFilter = 'all';
 const priorityColors = {
   high: 'font-bold bg-red-100 text-red-600',
   medium: 'font-bold bg-orange-100 text-orange-600',
-  low: 'font-bold bg-gray-100 text-gray-600'
+  low: 'font-bold bg-gray-100 text-gray-800'
 };
 
 const statusColors = {
@@ -24,6 +24,13 @@ const statusIcons = {
 };
 
 async function fetchIssues() {
+
+issuesContainer.innerHTML = `
+<div class="flex justify-center items-center h-[60vh]">
+  <span class="loading loading-spinner loading-lg text-blue-600"></span>
+</div>
+`;
+
   try {
     const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
     const result = await res.json();
